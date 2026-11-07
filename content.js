@@ -61,11 +61,6 @@ const site = {
       caption: "With parsley and buttered brown bread.",
     },
     {
-      image: "images/soup-and-bread.jpg",
-      title: "Vegetable soup",
-      caption: "The same bowl, from above.",
-    },
-    {
       image: "images/pan-fried-sea-bream.jpg",
       title: "Pan-fried sea bream",
       caption: "With new potatoes, peas and broccoli.",
