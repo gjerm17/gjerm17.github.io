@@ -150,7 +150,6 @@ h2 {
   padding: 0.28rem 0;
 }
 
-.dishes,
 .videos {
   display: grid;
   gap: 1.85rem;
@@ -160,23 +159,98 @@ figure {
   margin: 0;
 }
 
-figure img {
+.gallery-viewport {
+  overflow: hidden;
+  touch-action: pan-y;
+  cursor: grab;
+  background: #1c1612;
+}
+
+.gallery-viewport:active {
+  cursor: grabbing;
+}
+
+.gallery-track {
+  display: flex;
+  will-change: transform;
+}
+
+.slide {
+  position: relative;
+  flex: 0 0 100%;
+  height: min(70vh, 36rem);
+  overflow: hidden;
+}
+
+.slide img {
   display: block;
   width: 100%;
-  height: auto;
-  background: #e7dccb;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
-figcaption {
-  margin-top: 0.55rem;
+.lower-third {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: 0;
+  padding: 0.7rem 0.95rem 0.8rem;
+  background: #221b16;
+  color: #f4efe4;
 }
 
-figcaption strong {
+.lower-third strong {
   display: block;
   font-family: var(--serif);
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   font-weight: 560;
   line-height: 1.25;
+  color: #f4efe4;
+}
+
+.lower-third span {
+  display: block;
+  margin-top: 0.15rem;
+  color: #e4d8c8;
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+.gallery-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.gallery-bar button {
+  padding: 0.35rem 0;
+  border: 0;
+  background: transparent;
+  color: var(--copper);
+  font: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.gallery-bar button:disabled {
+  color: #b5a89b;
+  cursor: default;
+}
+
+.gallery-count {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.video figcaption {
+  margin-top: 0.55rem;
 }
 
 .frame {
@@ -250,5 +324,30 @@ figcaption strong {
     display: block;
     margin-top: 0.25rem;
     font-size: 0.85rem;
+  }
+
+  .gallery-viewport {
+    overflow: visible;
+    background: transparent;
+  }
+
+  .gallery-track {
+    display: block;
+    transform: none !important;
+  }
+
+  .slide {
+    height: auto;
+    margin-bottom: 1rem;
+    break-inside: avoid;
+  }
+
+  .slide img {
+    height: auto;
+    object-fit: contain;
+  }
+
+  .gallery-bar {
+    display: none;
   }
 }

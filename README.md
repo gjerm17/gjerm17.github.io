@@ -19,7 +19,7 @@ dishes: [
 ],
 ```
 
-3. Save, then commit and push. The Dishes section appears on its own once there is at least one photo. Until then it stays off the page.
+3. Save, then commit and push. The Dishes section appears on its own once there is at least one photo. Until then it stays off the page. On the site, swipe left for the next photo. The caption sits in a strip along the bottom of the picture.
 
 In Cursor you can say: “add this photo as a dish called roast chicken, with this caption.”
 

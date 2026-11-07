@@ -51,14 +51,9 @@ const site = {
       caption: "Sausage, bacon, black pudding, scrambled eggs, mushrooms, tomatoes and beans.",
     },
     {
-      image: "images/scotch-egg.jpg",
-      title: "Scotch egg",
-      caption: "Crumbed Scotch egg with a dressed salad.",
-    },
-    {
       image: "images/scotch-egg-2.jpg",
       title: "Scotch egg",
-      caption: "A closer look at the crumb.",
+      caption: "Crumbed Scotch egg.",
     },
     {
       image: "images/soup-and-bread-plate.jpg",

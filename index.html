@@ -96,13 +96,13 @@
           ? "<span>" + esc(dish.caption) + "</span>"
           : "";
         return (
-          "<figure>" +
+          '<figure class="slide">' +
           '<img src="' +
           esc(dish.image) +
           '" alt="' +
           esc(dish.caption || title) +
-          '">' +
-          "<figcaption><strong>" +
+          '" draggable="false">' +
+          '<figcaption class="lower-third"><strong>' +
           esc(title) +
           "</strong>" +
           caption +
@@ -153,9 +153,16 @@
       });
 
       const dishesSection = dishes.length
-        ? '<section aria-labelledby="dishes-heading"><h2 id="dishes-heading">Dishes</h2><div class="dishes">' +
+        ? '<section aria-labelledby="dishes-heading"><h2 id="dishes-heading">Dishes</h2>' +
+          '<div class="gallery" tabindex="0" aria-roledescription="carousel" aria-label="Dishes">' +
+          '<div class="gallery-viewport"><div class="gallery-track">' +
           dishes.map(dishHtml).join("") +
-          "</div></section>"
+          "</div></div>" +
+          '<div class="gallery-bar">' +
+          '<button type="button" class="prev" aria-label="Previous dish">Previous</button>' +
+          '<p class="gallery-count"></p>' +
+          '<button type="button" class="next" aria-label="Next dish">Next</button>' +
+          "</div></div></section>"
         : "";
 
       const videosSection = videos.length
@@ -194,12 +201,12 @@
         "</a></li>" +
         "</ul>" +
         "</header>" +
+        dishesSection +
+        videosSection +
         '<section aria-labelledby="experience-heading">' +
         '<h2 id="experience-heading">Experience</h2>' +
         data.jobs.map(jobHtml).join("") +
         "</section>" +
-        dishesSection +
-        videosSection +
         '<section aria-labelledby="also-heading">' +
         '<h2 id="also-heading">Training and other</h2>' +
         '<ul class="notes">' +
@@ -216,6 +223,106 @@
         esc(data.reference) +
         "</p>" +
         "</section>";
+
+        const gallery = document.querySelector(".gallery");
+        if (gallery) mountGallery(gallery);
+      }
+
+      function mountGallery(root) {
+        const track = root.querySelector(".gallery-track");
+        const viewport = root.querySelector(".gallery-viewport");
+        const slides = Array.prototype.slice.call(track.children);
+        const count = root.querySelector(".gallery-count");
+        const prev = root.querySelector(".prev");
+        const next = root.querySelector(".next");
+        let index = 0;
+        let pointerId = null;
+        let startX = 0;
+        let startY = 0;
+        let deltaX = 0;
+        let axis = "";
+
+        function go(nextIndex) {
+          index = Math.max(0, Math.min(slides.length - 1, nextIndex));
+          track.style.transition = "transform 0.35s ease";
+          track.style.transform = "translateX(" + -index * 100 + "%)";
+          count.textContent = index + 1 + " / " + slides.length;
+          prev.disabled = index === 0;
+          next.disabled = index === slides.length - 1;
+          slides.forEach(function (slide, slideIndex) {
+            slide.setAttribute("aria-hidden", slideIndex === index ? "false" : "true");
+          });
+        }
+
+        function follow(pixelOffset) {
+          track.style.transition = "none";
+          track.style.transform =
+            "translateX(calc(" + -index * 100 + "% + " + pixelOffset + "px))";
+        }
+
+        viewport.addEventListener("pointerdown", function (event) {
+          if (event.pointerType === "mouse" && event.button !== 0) return;
+          pointerId = event.pointerId;
+          startX = event.clientX;
+          startY = event.clientY;
+          deltaX = 0;
+          axis = "";
+        });
+
+        viewport.addEventListener("pointermove", function (event) {
+          if (pointerId !== event.pointerId) return;
+          const moveX = event.clientX - startX;
+          const moveY = event.clientY - startY;
+          if (!axis) {
+            if (Math.abs(moveX) < 8 && Math.abs(moveY) < 8) return;
+            axis = Math.abs(moveX) > Math.abs(moveY) ? "x" : "y";
+            if (axis === "x") {
+              try {
+                viewport.setPointerCapture(event.pointerId);
+              } catch (error) {
+                /* A mouse or trackpad drag still works if capture is unavailable. */
+              }
+            }
+          }
+          if (axis !== "x") return;
+          deltaX = moveX;
+          const atStart = index === 0 && deltaX > 0;
+          const atEnd = index === slides.length - 1 && deltaX < 0;
+          follow((atStart || atEnd ? 0.3 : 1) * deltaX);
+        });
+
+        function finish(event) {
+          if (pointerId !== event.pointerId) return;
+          pointerId = null;
+          if (axis === "x") {
+            if (deltaX <= -48) go(index + 1);
+            else if (deltaX >= 48) go(index - 1);
+            else go(index);
+          }
+          axis = "";
+        }
+
+        viewport.addEventListener("pointerup", finish);
+        viewport.addEventListener("pointercancel", finish);
+
+        prev.addEventListener("click", function () {
+          go(index - 1);
+        });
+        next.addEventListener("click", function () {
+          go(index + 1);
+        });
+        root.addEventListener("keydown", function (event) {
+          if (event.key === "ArrowRight") {
+            go(index + 1);
+            event.preventDefault();
+          }
+          if (event.key === "ArrowLeft") {
+            go(index - 1);
+            event.preventDefault();
+          }
+        });
+
+        go(0);
       }
 
       render(site);
