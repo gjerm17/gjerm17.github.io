@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>George Rouse-Mighall · Professional cookery student</title>
+    <meta
+      name="description"
+      content="Professional cookery student in Hassocks, keen to build on hospitality experience and become a professional chef."
+    />
+    <link rel="canonical" href="https://georgechef.miggle.net/" />
+    <meta property="og:title" content="George Rouse-Mighall" />
+    <meta
+      property="og:description"
+      content="Professional cookery student in Hassocks, keen to build on hospitality experience and become a professional chef."
+    />
+    <meta property="og:url" content="https://georgechef.miggle.net/" />
+    <meta property="og:type" content="profile" />
+    <meta name="theme-color" content="#f4efe4" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,460;9..144,560&family=Source+Sans+3:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main id="page"></main>
+    <script src="content.js"></script>
+    <script>
+      function esc(value) {
+        return String(value ?? "").replace(/[&<>"']/g, function (char) {
+          return {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;",
+          }[char];
+        });
+      }
+
+      function youtubeId(url) {
+        try {
+          const parsed = new URL(url);
+          const host = parsed.hostname.replace(/^www\./, "");
+          if (host === "youtu.be") {
+            return parsed.pathname.split("/").filter(Boolean)[0] || "";
+          }
+          if (host === "youtube.com" || host === "youtube-nocookie.com") {
+            const watchId = parsed.searchParams.get("v");
+            if (watchId) return watchId;
+            const parts = parsed.pathname.split("/").filter(Boolean);
+            const marker = parts.findIndex(function (part) {
+              return part === "embed" || part === "shorts" || part === "live" || part === "v";
+            });
+            if (marker >= 0 && parts[marker + 1]) return parts[marker + 1];
+          }
+        } catch (error) {
+          return "";
+        }
+        return "";
+      }
+
+      function nameHtml(name) {
+        const parts = String(name).trim().split(/\s+/);
+        if (parts.length < 2) return esc(name);
+        const surname = parts.pop();
+        return esc(parts.join(" ")) + ' <span class="surname">' + esc(surname) + "</span>";
+      }
+
+      function jobHtml(job) {
+        if (job.brief) {
+          const when = job.when ? ", " + esc(job.when) : "";
+          return '<p class="brief">' + esc(job.role) + when + "</p>";
+        }
+        return (
+          '<article class="job">' +
+          "<h3>" +
+          esc(job.role) +
+          "</h3>" +
+          '<p class="place">' +
+          esc(job.place) +
+          "</p>" +
+          '<p class="when">' +
+          esc(job.when) +
+          "</p>" +
+          "</article>"
+        );
+      }
+
+      function dishHtml(dish) {
+        const title = dish.title || "Dish";
+        const caption = dish.caption
+          ? "<span>" + esc(dish.caption) + "</span>"
+          : "";
+        return (
+          "<figure>" +
+          '<img src="' +
+          esc(dish.image) +
+          '" alt="' +
+          esc(dish.caption || title) +
+          '">' +
+          "<figcaption><strong>" +
+          esc(title) +
+          "</strong>" +
+          caption +
+          "</figcaption>" +
+          "</figure>"
+        );
+      }
+
+      function videoHtml(video) {
+        const title = esc(video.title || "Video");
+        const id = youtubeId(video.url);
+        if (!id) {
+          return (
+            '<p class="video-link"><a href="' +
+            esc(video.url) +
+            '">' +
+            title +
+            "</a></p>"
+          );
+        }
+        return (
+          '<figure class="video">' +
+          '<div class="frame">' +
+          '<iframe src="https://www.youtube-nocookie.com/embed/' +
+          esc(id) +
+          '" title="' +
+          title +
+          '" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>' +
+          "</div>" +
+          "<figcaption>" +
+          title +
+          "</figcaption>" +
+          '<a class="print-url" href="' +
+          esc(video.url) +
+          '">' +
+          esc(video.url) +
+          "</a>" +
+          "</figure>"
+        );
+      }
+
+      function render(data) {
+      const dishes = (data.dishes || []).filter(function (dish) {
+        return dish && dish.image;
+      });
+      const videos = (data.videos || []).filter(function (video) {
+        return video && video.url;
+      });
+
+      const dishesSection = dishes.length
+        ? '<section aria-labelledby="dishes-heading"><h2 id="dishes-heading">Dishes</h2><div class="dishes">' +
+          dishes.map(dishHtml).join("") +
+          "</div></section>"
+        : "";
+
+      const videosSection = videos.length
+        ? '<section aria-labelledby="videos-heading"><h2 id="videos-heading">In the kitchen</h2><div class="videos">' +
+          videos.map(videoHtml).join("") +
+          "</div></section>"
+        : "";
+
+      const description = document.querySelector('meta[name="description"]');
+      if (description) description.setAttribute("content", data.summary);
+
+      document.getElementById("page").innerHTML =
+        '<header>' +
+        '<hr class="mark">' +
+        "<h1>" +
+        nameHtml(data.name) +
+        "</h1>" +
+        '<p class="role">' +
+        esc(data.role) +
+        " · " +
+        esc(data.location) +
+        "</p>" +
+        '<p class="summary">' +
+        esc(data.summary) +
+        "</p>" +
+        '<ul class="contact">' +
+        "<li><a href=\"mailto:" +
+        esc(data.email) +
+        '">' +
+        esc(data.email) +
+        "</a></li>" +
+        '<li><a href="tel:' +
+        esc(data.phoneHref) +
+        '">' +
+        esc(data.phone) +
+        "</a></li>" +
+        "</ul>" +
+        "</header>" +
+        '<section aria-labelledby="experience-heading">' +
+        '<h2 id="experience-heading">Experience</h2>' +
+        data.jobs.map(jobHtml).join("") +
+        "</section>" +
+        dishesSection +
+        videosSection +
+        '<section aria-labelledby="also-heading">' +
+        '<h2 id="also-heading">Training and other</h2>' +
+        '<ul class="notes">' +
+        data.also
+          .map(function (item) {
+            return "<li>" + esc(item) + "</li>";
+          })
+          .join("") +
+        "</ul>" +
+        "</section>" +
+        '<section aria-labelledby="references-heading">' +
+        '<h2 id="references-heading">References</h2>' +
+        "<p>" +
+        esc(data.reference) +
+        "</p>" +
+        "</section>";
+      }
+
+      render(site);
+    </script>
+  </body>
+</html>
