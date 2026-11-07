@@ -48,7 +48,7 @@ git commit -m "Add a dish"
 git push
 ```
 
-GitHub updates the site a minute or two later. Refresh [georgechef.miggle.net](https://georgechef.miggle.net/).
+GitHub publishes the files a minute or two later. Open [georgechef.miggle.net](https://georgechef.miggle.net/) again. The page checks for a new copy of itself on each visit, so a normal reload is enough. If you replace a photo but keep the same file name, change `rev` in `content.js` to any new word so phones pick up the new picture.
 
 ## First-time Pages switch
 

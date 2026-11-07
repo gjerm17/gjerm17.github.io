@@ -2,6 +2,7 @@
 // Photos go in the images folder. A YouTube link can be added under videos.
 
 const site = {
+  rev: "20261107b",
   name: "George Rouse-Mighall",
   role: "Professional cookery student",
   location: "Hassocks",

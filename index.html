@@ -23,7 +23,7 @@
       href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,460;9..144,560&family=Source+Sans+3:wght@400;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css" />
+    <link id="site-style" rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <main id="page"></main>
@@ -98,7 +98,7 @@
         return (
           '<figure class="slide">' +
           '<img src="' +
-          esc(dish.image) +
+          esc(cacheBust(dish.image, dishHtml.rev)) +
           '" alt="' +
           esc(dish.caption || title) +
           '" draggable="false">' +
@@ -144,7 +144,13 @@
         );
       }
 
+      function cacheBust(url, rev) {
+        if (!url || !rev) return url;
+        return url + (url.indexOf("?") === -1 ? "?" : "&") + "v=" + encodeURIComponent(rev);
+      }
+
       function render(data) {
+      dishHtml.rev = data.rev;
       const dishes = (data.dishes || []).filter(function (dish) {
         return dish && dish.image;
       });
@@ -326,6 +332,65 @@
       }
 
       render(site);
+
+      // Bumped when this file changes. content.js and styles.css are checked on each visit.
+      var PAGE = "20261107b";
+
+      function freshUrl(path) {
+        return path + "?ts=" + Date.now();
+      }
+
+      function hashText(text) {
+        var total = 0;
+        for (var i = 0; i < text.length; i++) total = (total * 31 + text.charCodeAt(i)) >>> 0;
+        return total.toString(36);
+      }
+
+      function readSite(text) {
+        return new Function(text + "\nreturn site;")();
+      }
+
+      function lookForUpdates() {
+        if (location.protocol === "file:") return;
+        var styleLink = document.getElementById("site-style");
+        Promise.all([
+          fetch(freshUrl("index.html"), { cache: "no-store" }).then(function (response) {
+            return response.text();
+          }),
+          fetch(freshUrl("content.js"), { cache: "no-store" }).then(function (response) {
+            return response.text();
+          }),
+          fetch(freshUrl("styles.css"), { cache: "no-store" }).then(function (response) {
+            return response.text();
+          }),
+          styleLink
+            ? fetch(styleLink.href, { cache: "force-cache" }).then(function (response) {
+                return response.text();
+              })
+            : Promise.resolve(""),
+        ])
+          .then(function (files) {
+            var html = files[0];
+            var contentText = files[1];
+            var freshStyle = files[2];
+            var currentStyle = files[3];
+            var marker = html.match(/var PAGE = "([^"]*)"/);
+            if (marker && marker[1] !== PAGE) {
+              var next = new URL(location.href);
+              next.searchParams.set("v", marker[1]);
+              location.replace(next.href);
+              return;
+            }
+            if (styleLink && freshStyle && freshStyle !== currentStyle) {
+              styleLink.href = "styles.css?v=" + hashText(freshStyle);
+            }
+            var freshSite = readSite(contentText);
+            if (JSON.stringify(freshSite) !== JSON.stringify(site)) render(freshSite);
+          })
+          .catch(function () {});
+      }
+
+      lookForUpdates();
     </script>
   </body>
 </html>
