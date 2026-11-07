@@ -56,11 +56,6 @@ const site = {
       caption: "Crumbed Scotch egg.",
     },
     {
-      image: "images/scotch-egg-2.jpg",
-      title: "Scotch egg",
-      caption: "Crumbed Scotch egg yum yum.",
-    },
-    {
       image: "images/soup-and-bread-plate.jpg",
       title: "Vegetable soup",
       caption: "With parsley and buttered brown bread.",
