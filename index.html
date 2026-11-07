@@ -17,6 +17,7 @@
     <meta property="og:url" content="https://georgechef.miggle.net/" />
     <meta property="og:type" content="profile" />
     <meta name="theme-color" content="#f4efe4" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -191,6 +192,7 @@
         " · " +
         esc(data.location) +
         "</p>" +
+        (data.study ? '<p class="study">' + esc(data.study) + "</p>" : "") +
         '<p class="summary">' +
         esc(data.summary) +
         "</p>" +
@@ -216,7 +218,8 @@
         '<section aria-labelledby="also-heading">' +
         '<h2 id="also-heading">Training and other</h2>' +
         '<ul class="notes">' +
-        data.also
+        (data.study ? [data.study] : [])
+          .concat(data.also || [])
           .map(function (item) {
             return "<li>" + esc(item) + "</li>";
           })
@@ -334,7 +337,7 @@
       render(site);
 
       // Bumped when this file changes. content.js and styles.css are checked on each visit.
-      var PAGE = "20261107b";
+      var PAGE = "20261107c";
 
       function freshUrl(path) {
         return path + "?ts=" + Date.now();

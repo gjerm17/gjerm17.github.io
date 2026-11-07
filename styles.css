@@ -54,8 +54,14 @@ h1 {
 }
 
 .role {
-  margin: 0 0 1.35rem;
+  margin: 0 0 0.45rem;
   color: var(--muted);
+}
+
+.study {
+  max-width: 36rem;
+  margin: 0 0 1.2rem;
+  line-height: 1.4;
 }
 
 .summary {

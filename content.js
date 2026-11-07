@@ -6,6 +6,8 @@ const site = {
   name: "George Rouse-Mighall",
   role: "Professional cookery student",
   location: "Hassocks",
+  study:
+    "Currently studying the City & Guilds Level 2 Diploma in Professional Cookery / Culinary Skills at Brighton MET.",
   summary:
     "Keen to build on my experience in the hospitality sector and become a professional chef.",
   email: "gjerm17@gmail.com",
@@ -29,8 +31,8 @@ const site = {
     },
     {
       role: "Paper round",
+      place: "Morrisons, Hassocks",
       when: "January 2024 – November 2025",
-      brief: true,
     },
   ],
   also: [
