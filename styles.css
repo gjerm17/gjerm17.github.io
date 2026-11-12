@@ -60,6 +60,12 @@ h1 {
 
 .study {
   max-width: 36rem;
+  margin: 0 0 0.35rem;
+  line-height: 1.4;
+}
+
+.looking {
+  max-width: 36rem;
   margin: 0 0 1.2rem;
   line-height: 1.4;
 }

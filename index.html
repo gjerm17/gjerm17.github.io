@@ -3,16 +3,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>George Rouse-Mighall · Professional cookery student</title>
+    <title>George Rouse-Mighall · Level 2 cookery student at Brighton MET, Hassocks</title>
     <meta
       name="description"
-      content="Professional cookery student in Hassocks, keen to build on hospitality experience and become a professional chef."
+      content="City &amp; Guilds Level 2 cookery student at Brighton MET. Looking for kitchen work around Hassocks, Brighton, Hove, Burgess Hill and nearby."
     />
     <link rel="canonical" href="https://georgechef.miggle.net/" />
     <meta property="og:title" content="George Rouse-Mighall" />
     <meta
       property="og:description"
-      content="Professional cookery student in Hassocks, keen to build on hospitality experience and become a professional chef."
+      content="City &amp; Guilds Level 2 cookery student at Brighton MET. Looking for kitchen work around Hassocks, Brighton, Hove, Burgess Hill and nearby."
     />
     <meta property="og:url" content="https://georgechef.miggle.net/" />
     <meta property="og:type" content="profile" />
@@ -32,7 +32,7 @@
     <meta name="twitter:title" content="George Rouse-Mighall" />
     <meta
       name="twitter:description"
-      content="Professional cookery student in Hassocks, keen to build on hospitality experience and become a professional chef."
+      content="City &amp; Guilds Level 2 cookery student at Brighton MET. Looking for kitchen work around Hassocks, Brighton, Hove, Burgess Hill and nearby."
     />
     <meta
       name="twitter:image"
@@ -40,6 +40,33 @@
     />
     <meta name="twitter:image:alt" content="A plated dish by George Rouse-Mighall" />
     <meta name="theme-color" content="#f4efe4" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "George Rouse-Mighall",
+        "url": "https://georgechef.miggle.net/",
+        "image": "https://georgechef.miggle.net/images/IMG_0580.jpeg?v=20261107b",
+        "jobTitle": "Professional cookery student",
+        "email": "mailto:gjerm17@gmail.com",
+        "telephone": "+447749488495",
+        "description": "Currently studying the City & Guilds Level 2 Diploma in Professional Cookery / Culinary Skills at Brighton MET. Looking for kitchen work around Hassocks, Brighton, Hove, Burgess Hill and nearby.",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Hassocks",
+          "addressRegion": "West Sussex",
+          "addressCountry": "GB"
+        },
+        "affiliation": {
+          "@type": "CollegeOrUniversity",
+          "name": "Brighton MET"
+        },
+        "knowsAbout": [
+          "Professional cookery",
+          "City & Guilds Level 2 Diploma in Professional Cookery"
+        ]
+      }
+    </script>
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -202,7 +229,12 @@
         : "";
 
       const description = document.querySelector('meta[name="description"]');
-      if (description) description.setAttribute("content", data.summary);
+      if (description) {
+        description.setAttribute(
+          "content",
+          "City & Guilds Level 2 cookery student at Brighton MET. Looking for kitchen work around Hassocks, Brighton, Hove, Burgess Hill and nearby."
+        );
+      }
 
       document.getElementById("page").innerHTML =
         '<header>' +
@@ -216,6 +248,7 @@
         esc(data.location) +
         "</p>" +
         (data.study ? '<p class="study">' + esc(data.study) + "</p>" : "") +
+        (data.looking ? '<p class="looking">' + esc(data.looking) + "</p>" : "") +
         '<p class="summary">' +
         esc(data.summary) +
         "</p>" +
@@ -360,7 +393,7 @@
       render(site);
 
       // Bumped when this file changes. content.js and styles.css are checked on each visit.
-      var PAGE = "20261112b";
+      var PAGE = "20261112d";
 
       function freshUrl(path) {
         return path + "?ts=" + Date.now();

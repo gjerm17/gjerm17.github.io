@@ -8,6 +8,7 @@ const site = {
   location: "Hassocks",
   study:
     "Currently studying the City & Guilds Level 2 Diploma in Professional Cookery / Culinary Skills at Brighton MET.",
+  looking: "Looking for kitchen work around Hassocks, Brighton, Hove, Burgess Hill and nearby.",
   summary:
     "Keen to build on my experience in the hospitality sector and become a professional chef.",
   email: "gjerm17@gmail.com",
