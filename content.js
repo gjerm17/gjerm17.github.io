@@ -73,6 +73,31 @@ const site = {
       title: "Side salad",
       caption: "Tomato, lettuce, cucumber and spring onion.",
     },
+     {
+      image: "images/IMG_0569.jpeg",
+      title: "Macaroni Cheese",
+      caption: "Macaroni Cheese made with a roux sauce base.",
+    }, {
+      image: "images/IMG_0579.jpeg",
+      title: "Cooked Plaice with new potato mash and fish sauce",
+      caption: "Fillited Plaice with a smooth new potato mash and a fish sauce with parsley and blanched diced tomatoes.",
+    }, {
+      image: "images/IMG_0580.jpeg",
+      title: "Boiled Salmon with new potato mash, roasted cauliflower and a fish sauce",
+      caption: "Boiled Salmon with a creamy new potato mash, roasted cauliflower and a fish sauce mixed with pea puree.",
+    }, {
+      image: "images/IMG_1477.jpeg",
+      title: "Profiteroles",
+      caption: "Light crispy choux pastry with a light cream and melted choclate drizzled over.",
+    }, {
+      image: "images/IMG_1478.jpeg",
+      title: "Beef Wellinghton",
+      caption: "A medium rare fillet steak wrapped in mushrooms, prosciuttio and puff pastry   .",
+    }, {
+      image: "images/IMG_1479.jpeg",
+      title: "Tomato soup with soda bread",
+      caption: "Creamy tomato soup with a wholemeal soda bread cut into a slice.",
+    },
   ],
   videos: [
     // {
