@@ -61,3 +61,5 @@ This only needs doing once, and only George can do it. Push access cannot change
 5. When the certificate is ready, turn on Enforce HTTPS.
 
 DNS is already in place: `georgechef` is a CNAME to `gjerm17.github.io`.
+
+ENDS
