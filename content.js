@@ -45,6 +45,11 @@ const site = {
   reference: "Pizza Pilgrims. Details available on request.",
   dishes: [
     {
+      image: "images/IMG_0618-2.jpeg",
+      title: "Breaded butternut squash with brown rice and a curry sauce",
+      caption: "Breaded butternut squash with brown rice, a curry sauce, butternut squash puree and stir-fried brocoli.",
+    },
+    {
       image: "images/IMG_0579.jpeg",
       title: "Cooked Plaice with new potato mash & fish sauce",
       caption: "Fillited Plaice with a smooth new potato mash and a fish sauce with parsley and blanched diced tomatoes.",
